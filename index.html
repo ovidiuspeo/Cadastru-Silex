@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Listare Bazin</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="supabase.js"></script>
+</head>
+
+<body>
+
+<div id="login">
+  <h3>Acces restricționat</h3>
+  Parolă: <input id="pass" type="password">
+  <button onclick="login()">Intră</button>
+</div>
+
+<div id="content" style="display:none;">
+
+  <h2>Listare peșteri dintr-un bazin</h2>
+
+  Cod Bazin:
+  <input id="bazin" type="text">
+  <button onclick="loadBazin()">Caută</button>
+
+  <table border="1" id="tabel" style="margin-top:20px;">
+    <thead>
+      <tr>
+        <th>NrP1</th>
+        <th>Var</th>
+        <th>Denumire</th>
+        <th>Hidro</th>
+        <th>Link imagini</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+</div>
+
+<script>
+function login() {
+  const parola = document.getElementById("pass").value
+  if (parola !== "demo123") {
+    alert("Parolă greșită")
+    return
+  }
+  document.getElementById("login").style.display = "none"
+  document.getElementById("content").style.display = "block"
+}
+</script>
+</body>
+</html>
