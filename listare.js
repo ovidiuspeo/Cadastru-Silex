@@ -70,3 +70,11 @@ function renderTable(rows) {
         table.appendChild(tr);
     });
 }
+function loadBazin() {
+    const cod = document.getElementById("bazin").value.trim();
+    if (!cod) {
+        alert("Introduceți un cod de bazin");
+        return;
+    }
+    listPesteriByBazin(cod);
+}
