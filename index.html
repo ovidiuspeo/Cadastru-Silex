@@ -1,36 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="ro">
 <head>
-  <title>Listare Bazin</title>
+  <meta charset="UTF-8">
+  <title>Listare Peșteri</title>
+
+  <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- Conexiune Supabase -->
   <script src="supabase.js"></script>
+
+  <!-- Funcții listare -->
   <script src="listare.js"></script>
+
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #999; padding: 6px; font-size: 14px; }
+    th { background: #eee; }
+  </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
 <div id="login">
   <h3>Acces restricționat</h3>
   Parolă: <input id="pass" type="password">
   <button onclick="login()">Intră</button>
 </div>
 
+<!-- CONȚINUT -->
 <div id="content" style="display:none;">
 
-  <h2>Listare peșteri dintr-un bazin</h2>
+  <h2>Listare peșteri după CodB1</h2>
 
-  Cod Bazin:
+  CodB1:
   <input id="bazin" type="text">
   <button onclick="loadBazin()">Caută</button>
 
-  <table border="1" id="tabel" style="margin-top:20px;">
+  <table id="tabelPesteri">
     <thead>
       <tr>
+        <th>CodB1</th>
         <th>NrP1</th>
         <th>Var</th>
         <th>Denumire</th>
-        <th>Hidro</th>
-        <th>Link imagini</th>
+        <th>SinList</th>
+        <th>SitMarc</th>
+        <th>DomMorf</th>
+        <th>Vale</th>
+        <th>Afluent</th>
+        <th>Versant</th>
+        <th>Munte</th>
+        <th>Nr Desc</th>
+        <th>Ld1</th>
+        <th>Id1</th>
+        <th>Md1</th>
+        <th>Hd1</th>
+        <th>AltAbs</th>
+        <th>AltRel</th>
+        <th>ModCalc</th>
+        <th>DezvTot</th>
+        <th>DenivNC</th>
+        <th>DenivPC</th>
+        <th>ExtReal</th>
+        <th>num_map</th>
+        <th>Club</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -40,14 +76,15 @@
 
 <script>
 function login() {
-  const parola = document.getElementById("pass").value
+  const parola = document.getElementById("pass").value;
   if (parola !== "demo123") {
-    alert("Parolă greșită")
-    return
+    alert("Parolă greșită");
+    return;
   }
-  document.getElementById("login").style.display = "none"
-  document.getElementById("content").style.display = "block"
+  document.getElementById("login").style.display = "none";
+  document.getElementById("content").style.display = "block";
 }
 </script>
+
 </body>
 </html>
