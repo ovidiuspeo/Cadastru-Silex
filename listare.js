@@ -1,3 +1,4 @@
+// 1. Funcția care citește datele din Supabase
 async function listPesteriByBazin(codBazin) {
     const { data, error } = await supabase
         .from('pesteri')
@@ -38,6 +39,7 @@ async function listPesteriByBazin(codBazin) {
 
     renderTable(data);
 }
+// 2. Funcția care afișează tabelul în HTML
 function renderTable(rows) {
     const table = document.getElementById('tabelPesteri');
     table.innerHTML = '';
