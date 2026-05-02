@@ -8,7 +8,7 @@ async function listPesteriByBazin(codBazin) {
             Var,
             Denumire,
             DomMorf,
-            Nr Desc,
+            NrDesc,
             AltAbs,
             AltRel,
             DezvTot,
