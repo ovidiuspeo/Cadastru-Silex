@@ -44,9 +44,9 @@ function renderTable(rows) {
         const tr = document.createElement("tr");
 
         const cols = [
-            'CodB1','NrP1','Var','Denumire','SinList','SitMarc','DomMorf',
-            'Vale','Afluent','Versant','Munte','Nr Desc','Ld1','Id1','Md1',
-            'Hd1','AltAbs','AltRel','ModCalc','DezvTot','DenivNC','DenivPC',
+            'CodB1','NrP1','Var','Denumire','DomMorf',
+            'Vale','Afluent','Versant','Munte','Nr Desc',
+            'AltAbs','AltRel','DezvTot','DenivNC','DenivPC',
             'ExtReal','num_map','Club'
         ];
 
