@@ -1,6 +1,6 @@
 // 1. Funcția care citește datele din Supabase
 async function listPesteriByBazin(codBazin) {
-    const { data, error } = await supabase
+    const { data, error } = await db_supa
         .from('pesteri_versiuni')
         .select(`
             "CodB1",
