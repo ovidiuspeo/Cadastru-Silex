@@ -8,10 +8,6 @@ async function listPesteriByBazin(codBazin) {
             Var,
             Denumire,
             DomMorf,
-            Vale,
-            Afluent,
-            Versant,
-            Munte,
             Nr Desc,
             AltAbs,
             AltRel,
@@ -44,8 +40,7 @@ function renderTable(rows) {
         const tr = document.createElement("tr");
 
         const cols = [
-            'CodB1','NrP1','Var','Denumire','DomMorf',
-            'Vale','Afluent','Versant','Munte','Nr Desc',
+            'CodB1','NrP1','Var','Denumire','Nr Desc',
             'AltAbs','AltRel','DezvTot','DenivNC','DenivPC',
             'ExtReal','num_map','Club'
         ];
