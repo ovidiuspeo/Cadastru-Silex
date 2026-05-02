@@ -1,5 +1,11 @@
 // 1. Funcția care citește datele din Supabase
 async function listPesteriByBazin(codBazin) {
+    // Verificăm dacă variabila există (pentru siguranță)
+    if (!window.db_supa) {
+        console.error("Conexiunea db_supa nu a fost inițializată!");
+        return;
+    }
+    
     const { data, error } = await window.db_supa
         .from('pesteri_versiuni')
         .select(`
