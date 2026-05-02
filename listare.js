@@ -40,7 +40,7 @@ function renderTable(rows) {
         const tr = document.createElement("tr");
 
         const cols = [
-            'CodB1','NrP1','Var','Denumire','Nr Desc',
+            'CodB1','NrP1','Var','Denumire','NrDesc',
             'AltAbs','AltRel','DezvTot','DenivNC','DenivPC',
             'ExtReal','num_map','Club'
         ];
