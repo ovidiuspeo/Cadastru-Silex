@@ -3,20 +3,20 @@ async function listPesteriByBazin(codBazin) {
     const { data, error } = await supabase
         .from('pesteri_versiuni')
         .select(`
-            CodB1,
-            NrP1,
-            Var,
-            Denumire,
-            DomMorf,
-            NrDesc,
-            AltAbs,
-            AltRel,
-            DezvTot,
-            DenivNC,
-            DenivPC,
-            ExtReal,
-            num_map,
-            Club
+            "CodB1",
+            "NrP1",
+            "Var",
+            "Denumire",
+            "DomMorf",
+            "NrDesc",
+            "AltAbs",
+            "AltRel",
+            "DezvTot",
+            "DenivNC",
+            "DenivPC",
+            "ExtReal",
+            "num_map",
+            "Club"
         `)
         .eq('CodB1', codBazin)
         .order('NrP1', { ascending: true });
