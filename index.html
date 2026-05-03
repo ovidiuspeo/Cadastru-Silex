@@ -46,6 +46,10 @@
   <div id="selectieColoane" style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin: 20px 0; border-radius: 5px;">
     <strong style="display:block; margin-bottom:10px;">Coloane afișate permanent: NrP1, Var, Denumire</strong>
     <strong style="display:block; margin-bottom:10px;">Selectează date suplimentare:</strong>
+      <!-- Butonul nou -->
+  <button type="button" onclick="toggleToateColoanele()" style="margin-bottom: 15px; font-size: 12px; padding: 5px 10px;">
+    Selectează / Deselectează Tot
+  </button>
 
     <div style="display: flex; flex-wrap: wrap; gap: 15px;">
         <label><input type="checkbox" class="coloana-db" value="NrDesc" checked> NrDesc</label>
@@ -61,13 +65,8 @@
         <!-- Aici vei adăuga restul coloanelor pe parcurs -->
     </div>
   </div> 
+ 
 
-  <div id="selectieColoane" ...>
-  <strong style="display:block; margin-bottom:10px;">Selectează date suplimentare:</strong>
-  <!-- Butonul nou -->
-  <button type="button" onclick="toggleToateColoanele()" style="margin-bottom: 15px; font-size: 12px; padding: 5px 10px;">
-    Selectează / Deselectează Tot
-  </button>
 
   <div id="containerCheckboxuri" style="display: flex; flex-wrap: wrap; gap: 15px;">
       <label><input type="checkbox" class="coloana-db" value="NrDesc" checked> NrDesc</label>
