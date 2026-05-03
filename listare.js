@@ -103,3 +103,14 @@ async function loadBazin() {
 // 3.4. Afișăm tabelul cu coloanele alese
     renderTable(data, coloaneVizibile);
 }
+// 5. Selectie toate coloane
+function toggleToateColoanele() {
+    const checkboxuri = document.querySelectorAll('.coloana-db');
+    // Verificăm dacă cel puțin unul este bifat
+    const oricareBifat = Array.from(checkboxuri).some(cb => cb.checked);
+
+    checkboxuri.forEach(cb => {
+        // Dacă e măcar unul bifat, le debifăm pe toate. Dacă sunt toate goale, le bifăm pe toate.
+        cb.checked = !oricareBifat;
+    });
+}
