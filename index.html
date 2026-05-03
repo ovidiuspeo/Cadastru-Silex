@@ -38,8 +38,29 @@
 
   <h2>Listare peșteri după CodB1</h2>
 
+<!-- 1. Secțiunea de introducere CodB1 -->
   CodB1:
   <input id="bazin" type="text">
+
+<!-- 2. NOUA Secțiune de selecție coloane (pusă aici) -->
+  <div id="selectieColoane" style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin: 20px 0; border-radius: 5px;">
+    <strong style="display:block; margin-bottom:10px;">Selectează datele dorite:</strong>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <label><input type="checkbox" class="coloana-db" value="Var" checked> Var</label>
+        <label><input type="checkbox" class="coloana-db" value="NrDesc" checked> NrDesc</label>
+        <label><input type="checkbox" class="coloana-db" value="AltAbs" checked> AltAbs</label>
+        <label><input type="checkbox" class="coloana-db" value="AltRel" checked> AltRel</label>
+        <label><input type="checkbox" class="coloana-db" value="DezvTot" checked> DezvTot</label>
+        <label><input type="checkbox" class="coloana-db" value="DenivNC" checked> DenivNC</label>
+        <label><input type="checkbox" class="coloana-db" value="DenivPC" checked> DenivPC</label>
+        <label><input type="checkbox" class="coloana-db" value="ExtReal" checked> ExtReal</label>
+        <label><input type="checkbox" class="coloana-db" value="ExtLong" checked> ExtLong</label>
+        <label><input type="checkbox" class="coloana-db" value="num_map" checked> num_map</label>
+        <label><input type="checkbox" class="coloana-db" value="Club" checked> Club</label>
+        <!-- Aici vei adăuga restul coloanelor pe parcurs -->
+    </div>
+  </div>
+  
   <button onclick="loadBazin()">Caută</button>
 
   <table id="tabelPesteri">
