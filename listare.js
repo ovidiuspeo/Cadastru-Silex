@@ -21,6 +21,7 @@ async function listPesteriByBazin(codBazin) {
             "DenivNC",
             "DenivPC",
             "ExtReal",
+            "ExtLong",
             "num_map",
             "Club"
         `)
@@ -48,7 +49,7 @@ function renderTable(rows) {
         const cols = [
             'CodB1','NrP1','Var','Denumire','NrDesc',
             'AltAbs','AltRel','DezvTot','DenivNC','DenivPC',
-            'ExtReal','num_map','Club'
+            'ExtReal','ExtLong','num_map','Club'
         ];
 
         cols.forEach(c => {
