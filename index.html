@@ -62,6 +62,20 @@
     </div>
   </div> 
 
+  <div id="selectieColoane" ...>
+  <strong style="display:block; margin-bottom:10px;">Selectează date suplimentare:</strong>
+  
+  <!-- Butonul nou -->
+  <button type="button" onclick="toggleToateColoanele()" style="margin-bottom: 15px; font-size: 12px; padding: 5px 10px;">
+    Selectează / Deselectează Tot
+  </button>
+
+  <div id="containerCheckboxuri" style="display: flex; flex-wrap: wrap; gap: 15px;">
+      <label><input type="checkbox" class="coloana-db" value="NrDesc" checked> NrDesc</label>
+      <!-- restul checkbox-urilor tale -->
+  </div>
+</div>
+
   <table id="tabelPesteri">
     <thead>
       <tr>
