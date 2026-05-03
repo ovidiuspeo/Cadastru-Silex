@@ -67,9 +67,14 @@ function renderTable(rows, coloaneDeAfisat) {
 
 
 // 3. Funcția apelată de butonul "Caută"
-function loadBazin() {
+async function loadBazin() {
     const cod = document.getElementById("bazin").value.trim();
     if (!cod) { alert("Introduceți un CodB1"); return; }
+
+    if (!window.db_supa) {
+        alert("Eroare: Conexiunea nu a fost stabilită.");
+        return;
+    }
 
  // 3.1. Definim coloanele care apar MEREU (fără să fie în checkbox)
     const coloaneVizibile = ['NrP1', 'Var','Denumire'];
@@ -81,7 +86,7 @@ function loadBazin() {
     });
     
 // 3.3. Construim lista pentru Supabase (cerem doar ce este în coloaneVizibile)
-    const listaSelect = coloaneVizibile.join(',');
+    const listaSelect = coloaneVizibile.map(c => `"${c}"`).join(',');
 
     const { data, error } = await window.db_supa
         .from('pesteri_versiuni')
