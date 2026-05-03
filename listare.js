@@ -126,5 +126,3 @@ function renderTable(rows, coloaneDeAfisat) {
     });
 
 }
-
-//    listPesteriByBazin(cod);
