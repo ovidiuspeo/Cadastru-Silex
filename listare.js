@@ -37,27 +37,30 @@ async function listPesteriByBazin(codBazin) {
     renderTable(data);
 }
 
-
 // 2. Funcția care afișează tabelul
-function renderTable(rows) {
+function renderTable(rows, coloaneDeAfisat) {
+    const theadRow = document.querySelector("#tabelPesteri thead tr");
     const tbody = document.querySelector("#tabelPesteri tbody");
+
+    // Ștergem header-ul și body-ul vechi
+    theadRow.innerHTML = "";
     tbody.innerHTML = "";
 
+    // 2.1. Generăm titlurile coloanelor (Header)
+    coloaneDeAfisat.forEach(numeColoana => {
+        const th = document.createElement("th");
+        th.textContent = numeColoana; 
+        theadRow.appendChild(th);
+    });
+
+    // 2.2. Generăm celulele cu date (Body)
     rows.forEach(r => {
         const tr = document.createElement("tr");
-
-        const cols = [
-            'CodB1','NrP1','Var','Denumire','NrDesc',
-            'AltAbs','AltRel','DezvTot','DenivNC','DenivPC',
-            'ExtReal','ExtLong','num_map','Club'
-        ];
-
-        cols.forEach(c => {
+        coloaneDeAfisat.forEach(numeColoana => {
             const td = document.createElement("td");
-            td.textContent = r[c] ?? "";
+            td.textContent = r[numeColoana] ?? "";
             tr.appendChild(td);
         });
-
         tbody.appendChild(tr);
     });
 }
@@ -94,35 +97,4 @@ function loadBazin() {
 
 // 3.4. Afișăm tabelul cu coloanele alese
     renderTable(data, coloaneVizibile);
-}
-
-function renderTable(rows, coloaneDeAfisat) {
-    const thead = document.querySelector("#tabelPesteri thead tr");
-    const tbody = document.querySelector("#tabelPesteri tbody");
-
-    thead.innerHTML = "";
-    tbody.innerHTML = "";
-
-    if (!rows || rows.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='5'>Nu s-au găsit date pentru acest CodB1.</td></tr>";
-        return;
-    }
-    // Creăm capul de tabel dinamic
-    coloaneDeAfisat.forEach(numeColoana => {
-        const th = document.createElement("th");
-        th.textContent = numeColoana;
-        thead.appendChild(th);
-    });
-
-    // Populăm rândurile
-    rows.forEach(r => {
-        const tr = document.createElement("tr");
-        coloaneDeAfisat.forEach(numeColoana => {
-            const td = document.createElement("td");
-            td.textContent = r[numeColoana] ?? "";
-            tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-    });
-
 }
