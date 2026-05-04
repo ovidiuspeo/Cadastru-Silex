@@ -42,7 +42,7 @@ function renderTable(rows, coloaneDeAfisat) {
                 
                 const link = document.createElement("a");
                 // Construim URL-ul public către fișier
-                link.href = `https://uymmflfhpeurfiigeivh.supabase.co/storage/v1/object/public//${bucket}/${folderCodBazin}/${valoare}`;
+                link.href = `https://uymmflfhpeurfiigeivh.supabase.co/storage/v1/object/public/${bucket}/${folderCodBazin}/${valoare}`;
                 link.target = "_blank"; // Deschide în tab nou
                 link.textContent = valoare;
                 link.style.color = "blue";
