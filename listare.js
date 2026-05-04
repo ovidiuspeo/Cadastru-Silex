@@ -1,79 +1,64 @@
-// 1. Funcția care citește datele din Supabase
-async function listPesteriByBazin(codBazin) {
-    // Verificăm dacă variabila există (pentru siguranță)
-    if (!window.db_supa) {
-        console.error("Conexiunea db_supa nu a fost inițializată!");
-        return;
-    }
-    
-    const { data, error } = await window.db_supa
-        .from('pesteri_versiuni')
-        .select(`
-            "CodB1",
-            "NrP1",
-            "Var",
-            "Denumire",
-            "SinList",
-            "SitMarc",
-    // 3. Localizare
-            "DomMorf",
-            "Vale",
-            "Afluent",
-            "Versant",
-            "Munte",
-            "NrDesc",
-            "AltAbs",
-            "AltRel",
-            "DezvTot",
-            "DenivNC",
-            "DenivPC",
-            "ExtReal",
-            "ExtLong",
-            "num_map",
-            "Club"
-        `)
-        .eq('CodB1', codBazin)
-        .order('NrP1', { ascending: true });
-
-    if (error) {
-        console.error('Eroare Supabase:', error);
-        alert("Eroare la citirea datelor din Supabase");
-        return;
-    }
-
-    renderTable(data);
-}
-
-// 2. Funcția care afișează tabelul
+// 1. Funcția care afișează tabelul (ACTUALIZATĂ pentru link-uri)
 function renderTable(rows, coloaneDeAfisat) {
     const theadRow = document.querySelector("#tabelPesteri thead tr");
     const tbody = document.querySelector("#tabelPesteri tbody");
 
-    // Ștergem header-ul și body-ul vechi
     theadRow.innerHTML = "";
     tbody.innerHTML = "";
 
-    // 2.1. Generăm titlurile coloanelor (Header)
+    if (!rows || rows.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='3'>Nu s-au găsit date.</td></tr>";
+        return;
+    }
+
+    // Configurație pentru link-uri: Coloana -> Bucket
+    const configMedia = {
+        'num_alt': 'diverse',
+        'num_foto': 'intrari',
+        'num_sch': 'schite',
+        'num_loc': 'localizari',
+        'num_map': 'harti'
+    };
+
+    // 1.1. Generăm Header-ul
     coloaneDeAfisat.forEach(numeColoana => {
         const th = document.createElement("th");
         th.textContent = numeColoana; 
         theadRow.appendChild(th);
     });
 
-    // 2.2. Generăm celulele cu date (Body)
+    // 1.2. Generăm Rândurile
     rows.forEach(r => {
         const tr = document.createElement("tr");
+        
         coloaneDeAfisat.forEach(numeColoana => {
             const td = document.createElement("td");
-            td.textContent = r[numeColoana] ?? "";
+            const valoare = r[numeColoana] ?? "";
+            
+            // Verificăm dacă această coloană trebuie să fie un link către un fișier
+            if (configMedia[numeColoana] && valoare !== "") {
+                const bucket = configMedia[numeColoana];
+                const folderCodBazin = r['CodB1']; // Avem nevoie de CodB1 pentru subfolder
+                
+                const link = document.createElement("a");
+                // Construim URL-ul public către fișier
+                link.href = `https://supabase.co{bucket}/${folderCodBazin}/${valoare}`;
+                link.target = "_blank"; // Deschide în tab nou
+                link.textContent = valoare;
+                link.style.color = "blue";
+                link.style.textDecoration = "underline";
+                
+                td.appendChild(link);
+            } else {
+                td.textContent = valoare;
+            }
             tr.appendChild(td);
         });
         tbody.appendChild(tr);
     });
 }
 
-
-// 3. Funcția apelată de butonul "Caută"
+// 2. Funcția apelată de butonul "Caută" (ACTUALIZATĂ pentru a cere CodB1)
 async function loadBazin() {
     const cod = document.getElementById("bazin").value.trim();
     if (!cod) { alert("Introduceți un CodB1"); return; }
@@ -83,17 +68,19 @@ async function loadBazin() {
         return;
     }
 
- // 3.1. Definim coloanele care apar MEREU (fără să fie în checkbox)
-    const coloaneVizibile = ['NrP1', 'Var','Denumire'];
+    // 2.1. Coloane vizibile permanent
+    const coloaneVizibile = ['NrP1', 'Var', 'Denumire'];
 
- // 3.2. Adăugăm coloanele pe care utilizatorul le-a ales din checkbox-uri
+    // 2.2. Adăugăm coloanele selectate din checkbox-uri
     const checkboxuri = document.querySelectorAll('.coloana-db:checked');
     checkboxuri.forEach(cb => {
         coloaneVizibile.push(cb.value);
     });
     
-// 3.3. Construim lista pentru Supabase (cerem doar ce este în coloaneVizibile)
-    const listaSelect = coloaneVizibile.map(c => `"${c}"`).join(',');
+    // 2.3. IMPORTANTE: Cerem CodB1 de la server chiar dacă nu e vizibilă în tabel,
+    // pentru că avem nevoie de ea în renderTable pentru a construi URL-ul folderului.
+    const coloaneDeCerut = Array.from(new Set(['CodB1', ...coloaneVizibile]));
+    const listaSelect = coloaneDeCerut.map(c => `"${c}"`).join(',');
 
     const { data, error } = await window.db_supa
         .from('pesteri_versiuni')
@@ -107,17 +94,15 @@ async function loadBazin() {
         return;
     }
 
-// 3.4. Afișăm tabelul cu coloanele alese
+    // 2.4. Afișăm tabelul cu coloanele vizibile alese
     renderTable(data, coloaneVizibile);
 }
-// 5. Selectie toate coloane
+
+// 3. Selectie toate coloane
 function toggleToateColoanele() {
     const checkboxuri = document.querySelectorAll('.coloana-db');
-    // Verificăm dacă cel puțin unul este bifat
     const oricareBifat = Array.from(checkboxuri).some(cb => cb.checked);
-
     checkboxuri.forEach(cb => {
-        // Dacă e măcar unul bifat, le debifăm pe toate. Dacă sunt toate goale, le bifăm pe toate.
         cb.checked = !oricareBifat;
     });
 }
