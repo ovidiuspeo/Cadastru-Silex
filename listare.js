@@ -86,7 +86,8 @@ async function loadBazin() {
         .from('pesteri_versiuni')
         .select(listaSelect) 
         .eq('CodB1', cod)
-        .order('NrP1', 'Var', { ascending: true });
+        .order('NrP1', { ascending: true })
+        .order( 'Var', { ascending: true });
 
     if (error) {
         console.error('Eroare:', error);
