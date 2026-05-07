@@ -1,4 +1,4 @@
-// 1. Funcția care afișează tabelul (ACTUALIZATĂ pentru link-uri) v.1.10
+// 1. Funcția care afișează tabelul (ACTUALIZATĂ pentru link-uri) v.1.11
 function renderTable(rows, coloaneDeAfisat) {
     const theadRow = document.querySelector("#tabelPesteri thead tr");
     const tbody = document.querySelector("#tabelPesteri tbody");
