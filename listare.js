@@ -129,3 +129,32 @@ function toggleToateColoanele() {
         cb.checked = !oricareBifat;
     });
 }
+
+function aplicaFiltre() {
+    const tbody = document.querySelector("#tabelPesteri tbody");
+    const filtre = document.querySelectorAll(".filter-row input");
+
+    const valoriFiltre = {};
+    filtre.forEach(f => {
+        valoriFiltre[f.dataset.col] = f.value.trim().toLowerCase();
+    });
+
+    Array.from(tbody.rows).forEach(row => {
+        let vizibil = true;
+
+        Array.from(row.cells).forEach((cell, index) => {
+            const colName = filtre[index].dataset.col;
+            const filtru = valoriFiltre[colName];
+
+            if (filtru !== "") {
+                const text = cell.innerText.toLowerCase();
+                if (!text.includes(filtru)) {
+                    vizibil = false;
+                }
+            }
+        });
+
+        row.style.display = vizibil ? "" : "none";
+    });
+}
+
