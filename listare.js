@@ -27,6 +27,28 @@ function renderTable(rows, coloaneDeAfisat) {
         theadRow.appendChild(th);
     });
 
+    // ---------------------------------------------------------
+    // 🔍 FILTRARE: Adăugăm un rând cu input-uri sub header
+    // ---------------------------------------------------------
+    let filterRow = document.querySelector("#tabelPesteri thead tr.filter-row");
+    if (filterRow) filterRow.remove(); // dacă există deja, îl recreăm
+
+    filterRow = document.createElement("tr");
+    filterRow.classList.add("filter-row");
+
+    coloaneDeAfisat.forEach(col => {
+        const th = document.createElement("th");
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Filtru...";
+        input.dataset.col = col;
+
+        input.addEventListener("input", () => aplicaFiltre());
+
+        th.appendChild(input);
+        filterRow.appendChild(th);
+    });
+
     // 1.2. Generăm Rândurile
     rows.forEach(r => {
         const tr = document.createElement("tr");
