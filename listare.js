@@ -1,7 +1,7 @@
 // -------------------------------------------------------------
-// 1. Funcția care afișează tabelul (cu link-uri semnate + filtrare) v1.30
+// 1. Funcția care afișează tabelul (cu link-uri + filtrare) v1.22
 // -------------------------------------------------------------
-async function renderTable(rows, coloaneDeAfisat) {
+function renderTable(rows, coloaneDeAfisat) {
     const thead = document.querySelector("#tabelPesteri thead");
     const theadRow = document.querySelector("#tabelPesteri thead tr");
     const tbody = document.querySelector("#tabelPesteri tbody");
@@ -55,47 +55,36 @@ async function renderTable(rows, coloaneDeAfisat) {
     thead.appendChild(filterRow);
 
     // ---------------------------------------------------------
-    // 1.2. Generăm Rândurile (cu URL-uri semnate)
+    // 1.2. Generăm Rândurile
     // ---------------------------------------------------------
-    for (const r of rows) {
+    rows.forEach(r => {
         const tr = document.createElement("tr");
 
-        for (const numeColoana of coloaneDeAfisat) {
+        coloaneDeAfisat.forEach(numeColoana => {
             const td = document.createElement("td");
             const valoare = r[numeColoana] ?? "";
 
-            // Dacă este coloană media → generăm URL semnat
             if (configMedia[numeColoana] && valoare !== "") {
                 const bucket = configMedia[numeColoana];
                 const folderCodBazin = r['CodB1'];
 
-                // Generăm URL semnat
-                const { data: signed, error: errSigned } = await window.db_supa
-                    .storage
-                    .from(bucket)
-                    .createSignedUrl(`${folderCodBazin}/${valoare}`, 3600);
+                const link = document.createElement("a");
+                link.href = `https://uymmflfhpeurfiigeivh.supabase.co/storage/v1/object/public/${bucket}/${folderCodBazin}/${valoare}`;
+                link.target = "_blank";
+                link.textContent = valoare;
+                link.style.color = "blue";
+                link.style.textDecoration = "underline";
 
-                if (errSigned) {
-                    console.error("Eroare URL semnat:", errSigned);
-                    td.textContent = valoare;
-                } else {
-                    const link = document.createElement("a");
-                    link.href = signed.signedUrl;
-                    link.target = "_blank";
-                    link.textContent = valoare;
-                    link.style.color = "blue";
-                    link.style.textDecoration = "underline";
-                    td.appendChild(link);
-                }
+                td.appendChild(link);
             } else {
                 td.textContent = valoare;
             }
 
             tr.appendChild(td);
-        }
+        });
 
         tbody.appendChild(tr);
-    }
+    });
 }
 
 // -------------------------------------------------------------
@@ -121,7 +110,9 @@ function aplicaFiltre() {
             const text = cell.innerText.toLowerCase();
             const numericCell = parseFloat(text);
 
-            // Interval: "10-20"
+            // -----------------------------
+            // 1. Interval: "10-20"
+            // -----------------------------
             if (/^\d+\s*-\s*\d+$/.test(filtru)) {
                 const [min, max] = filtru.split("-").map(v => parseFloat(v));
                 if (isNaN(numericCell) || numericCell < min || numericCell > max) {
@@ -130,7 +121,9 @@ function aplicaFiltre() {
                 return;
             }
 
-            // Operatori: >, <, >=, <=
+            // -----------------------------
+            // 2. Operatori: >, <, >=, <=
+            // -----------------------------
             if (/^(>=|<=|>|<)\s*\d+(\.\d+)?$/.test(filtru)) {
                 const op = filtru.match(/>=|<=|>|</)[0];
                 const val = parseFloat(filtru.replace(op, ""));
@@ -148,7 +141,9 @@ function aplicaFiltre() {
                 return;
             }
 
-            // Egalitate numerică
+            // -----------------------------
+            // 3. Egalitate numerică simplă
+            // -----------------------------
             if (!isNaN(parseFloat(filtru))) {
                 const val = parseFloat(filtru);
                 if (isNaN(numericCell) || numericCell !== val) {
@@ -157,7 +152,9 @@ function aplicaFiltre() {
                 return;
             }
 
-            // Filtrare text
+            // -----------------------------
+            // 4. Filtrare text normală
+            // -----------------------------
             if (!text.includes(filtru)) {
                 vizibil = false;
             }
@@ -179,13 +176,16 @@ async function loadBazin() {
         return;
     }
 
+    // 2.1. Coloane vizibile permanent
     const coloaneVizibile = ['NrP1', 'Var', 'Denumire'];
 
+    // 2.2. Adăugăm coloanele selectate din checkbox-uri
     const checkboxuri = document.querySelectorAll('.coloana-db:checked');
     checkboxuri.forEach(cb => {
         coloaneVizibile.push(cb.value);
     });
 
+    // 2.3. Cerem CodB1 chiar dacă nu e vizibil
     const coloaneDeCerut = Array.from(new Set(['CodB1', ...coloaneVizibile]));
     const listaSelect = coloaneDeCerut.map(c => `"${c}"`).join(',');
 
@@ -202,7 +202,7 @@ async function loadBazin() {
         return;
     }
 
-    await renderTable(data, coloaneVizibile);
+    renderTable(data, coloaneVizibile);
 }
 
 // -------------------------------------------------------------
@@ -216,10 +216,9 @@ function toggleToateColoanele() {
         cb.checked = !oricareBifat;
     });
 }
-
 function resetFiltre() {
     const filtre = document.querySelectorAll(".filter-row input");
     filtre.forEach(f => f.value = "");
 
-    aplicaFiltre();
+    aplicaFiltre(); // refiltrăm tabelul (afișează tot)
 }
